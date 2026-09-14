@@ -1,4 +1,4 @@
-module github.com/themmd-x/multitunnel
+module github.com/TheMMD-X/multitunnel
 
 go 1.26.5
 
