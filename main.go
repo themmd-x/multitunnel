@@ -1,11 +1,29 @@
 package main
 
 import (
-	"github.com/TheMMD-X/multitunnel/api"
+	"fmt"
+	"log"
+
+	"github.com/TheMMD-X/multitunnel/minecraft"
+	"github.com/TheMMD-X/multitunnel/query"
 )
 
 func main() {
-	address := "play.plant-mc.ir:19132";
+	address := "127.0.0.1:19132"
 
-	client.Connect("1.21.40", address)
+	data, _ := query.Do(address)
+	fmt.Println(data["version"])
+	dialer := minecraft.Dialer{
+		Version: "1.21.2",
+	}
+
+	conn, err := dialer.Dial("raknet", address)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if err := conn.DoSpawn(); err != nil {
+		log.Fatal(err)
+	}
+	for {}
 }

@@ -1,0 +1,205 @@
+package protocol
+
+const (
+	MemoryCategoryUnknown = iota
+	MemoryCategoryInvalidSizeUnknown
+	MemoryCategoryActor
+	MemoryCategoryActorAnimation
+	MemoryCategoryActorRendering
+	MemoryCategoryBalancer
+	MemoryCategoryBlockTickingQueues
+	MemoryCategoryBiomeStorage
+	MemoryCategoryBlobs
+	MemoryCategoryCereal
+	MemoryCategoryCircuitSystem
+	MemoryCategoryClient
+	MemoryCategoryCommands
+	MemoryCategoryDBStorage
+	MemoryCategoryDebug
+	MemoryCategoryDocumentation
+	MemoryCategoryECSSystems
+	MemoryCategoryFMOD
+	MemoryCategoryFonts
+	MemoryCategoryImGUI
+	MemoryCategoryInput
+	MemoryCategoryJsonUI
+	MemoryCategoryJsonUIControlFactoryJson
+	MemoryCategoryJsonUIControlTree
+	MemoryCategoryJsonUIControlTreeControlElement
+	MemoryCategoryJsonUIControlTreePopulateDataBinding
+	MemoryCategoryJsonUIControlTreePopulateFocus
+	MemoryCategoryJsonUIControlTreePopulateLayout
+	MemoryCategoryJsonUIControlTreePopulateOther
+	MemoryCategoryJsonUIControlTreePopulateSprite
+	MemoryCategoryJsonUIControlTreePopulateText
+	MemoryCategoryJsonUIControlTreePopulateTTS
+	MemoryCategoryJsonUIControlTreeVisibility
+	MemoryCategoryJsonUICreateUI
+	MemoryCategoryJsonUIDefs
+	MemoryCategoryJsonUILayoutManager
+	MemoryCategoryJsonUILayoutManagerRemoveDependencies
+	MemoryCategoryJsonUILayoutManagerInitVariable
+	MemoryCategoryLanguages
+	MemoryCategoryLevel
+	MemoryCategoryLevelStructures
+	MemoryCategoryLevelChunk
+	MemoryCategoryLevelChunkGen
+	MemoryCategoryLevelChunkGenThreadLocal
+	MemoryCategoryNetwork
+	MemoryCategoryMarketplace
+	MemoryCategoryMaterialDragonCompiledDefinition
+	MemoryCategoryMaterialDragonMaterial
+	MemoryCategoryMaterialDragonResource
+	MemoryCategoryMaterialDragonUniformMap
+	MemoryCategoryMaterialRenderMaterial
+	MemoryCategoryMaterialRenderMaterialGroup
+	MemoryCategoryMaterialVariationManager
+	MemoryCategoryMolang
+	MemoryCategoryOreUI
+	MemoryCategoryOreUIClient
+	MemoryCategoryPersonaPieces
+	MemoryCategoryPersonaAnimations
+	MemoryCategoryPersonaTextures
+	MemoryCategoryPersonaCharacters
+	MemoryCategoryPersonaSkinPacks
+	MemoryCategoryPersonaRepo
+	MemoryCategoryPlayer
+	MemoryCategoryRenderChunk
+	MemoryCategoryRenderChunkIndexBuffer
+	MemoryCategoryRenderChunkVertexBuffer
+	MemoryCategoryRendering
+	MemoryCategoryRenderingBGFXInit
+	MemoryCategoryRenderingBGFXStartFrame
+	MemoryCategoryRenderingBlockTessellator
+	MemoryCategoryRenderingEndFrame
+	MemoryCategoryRenderingGraphicsTasksInit
+	MemoryCategoryRenderingLibrary
+	MemoryCategoryRenderingPolygonOperatorPool
+	MemoryCategoryRenderingPBRTextureData
+	MemoryCategoryRenderingRenderRegistry
+	MemoryCategoryRenderingSetup
+	MemoryCategoryRenderingVertices
+	MemoryCategoryRequestLog
+	MemoryCategoryResourcePacks
+	MemoryCategorySound
+	MemoryCategorySubChunkBiomeData
+	MemoryCategorySubChunkBlockData
+	MemoryCategorySubChunkLightData
+	MemoryCategoryTextures
+	MemoryCategoryWeatherRenderer
+	MemoryCategoryWorldGenerator
+	MemoryCategoryTasks
+	MemoryCategoryTest
+	MemoryCategoryTestLoadTestTags
+	MemoryCategoryScripting
+	MemoryCategoryScriptingRuntime
+	MemoryCategoryScriptingContext
+	MemoryCategoryScriptingContextBindingsMC
+	MemoryCategoryScriptingContextBindingsGT
+	MemoryCategoryScriptingContextRun
+	MemoryCategoryDataDrivenUI
+	MemoryCategoryDataDrivenUIDefs
+	MemoryCategoryGameface
+	MemoryCategoryGamefaceSystem
+	MemoryCategoryGamefaceDOM
+	MemoryCategoryGamefaceCSS
+	MemoryCategoryGamefaceDisplay
+	MemoryCategoryGamefaceTempAllocator
+	MemoryCategoryGamefacePoolAllocator
+	MemoryCategoryGamefaceDump
+	MemoryCategoryGamefaceMedia
+	MemoryCategoryGamefaceJSON
+	MemoryCategoryGamefaceScriptEngine
+	MemoryCategoryGamefaceScript
+	MemoryCategoryGamefaceLayout
+	MemoryCategoryVR
+)
+
+// MemoryCategoryCounter represents a memory usage counter for a specific category.
+type MemoryCategoryCounter struct {
+	// Category is the memory category. It is one of the MemoryCategory constants above.
+	Category uint8
+	// Bytes is the number of bytes used by this category.
+	Bytes uint64
+}
+
+// Marshal encodes/decodes a MemoryCategoryCounter.
+func (x *MemoryCategoryCounter) Marshal(r IO) {
+	r.Uint8(&x.Category)
+	r.Uint64(&x.Bytes)
+}
+
+// EntityDiagnosticTimingInfo represents diagnostics for a specific entity type.
+type EntityDiagnosticTimingInfo struct {
+	// DisplayName is the name to display for this timing entry.
+	DisplayName string
+	// Entity is the identifier of the entity that is being timed.
+	Entity string
+	// DurationNanos is whole long the timing entry has lasted, in nanoseconds.
+	DurationNanos uint64
+	// PercentOfTotal is the percentage of time that this timing entry has used compared to others.
+	PercentOfTotal byte
+}
+
+// Marshal encodes/decodes a EntityDiagnosticTimingInfo.
+func (x *EntityDiagnosticTimingInfo) Marshal(r IO) {
+	r.String(&x.DisplayName)
+	r.String(&x.Entity)
+	r.Uint64(&x.DurationNanos)
+	r.Uint8(&x.PercentOfTotal)
+}
+
+// SystemDiagnosticTimingInfo represents diagnostics for a specific system index.
+type SystemDiagnosticTimingInfo struct {
+	// DisplayName is the name to display for this timing entry.
+	DisplayName string
+	// SystemIndex is the index of the system that is being timed.
+	SystemIndex uint64
+	// DurationNanos is whole long the timing entry has lasted, in nanoseconds.
+	DurationNanos uint64
+	// PercentOfTotal is the percentage of time that this timing entry has used compared to others.
+	PercentOfTotal byte
+}
+
+// Marshal encodes/decodes a SystemDiagnosticTimingInfo.
+func (x *SystemDiagnosticTimingInfo) Marshal(r IO) {
+	r.String(&x.DisplayName)
+	r.Uint64(&x.SystemIndex)
+	r.Uint64(&x.DurationNanos)
+	r.Uint8(&x.PercentOfTotal)
+}
+
+// SystemCategory maps a diagnostics category name to a system index.
+type SystemCategory struct {
+	CategoryName string
+	SystemIndex  uint64
+}
+
+// Marshal encodes/decodes a SystemCategory.
+func (x *SystemCategory) Marshal(r IO) {
+	r.String(&x.CategoryName)
+	r.Uint64(&x.SystemIndex)
+}
+
+// WhiskerScopeDataSummary represents a whisker profiler scope diagnostic summary.
+type WhiskerScopeDataSummary struct {
+	// Label is the label of the whisker scope.
+	Label string
+	// Indentation is the indentation string of the whisker scope within the profiler hierarchy.
+	Indentation string
+	// TotalHighCostNS is the total time, in nanoseconds, spent in the high-cost portion of the scope.
+	TotalHighCostNS uint64
+	// TotalMidCostNS is the total time, in nanoseconds, spent in the mid-cost portion of the scope.
+	TotalMidCostNS uint64
+	// TotalLowCostNS is the total time, in nanoseconds, spent in the low-cost portion of the scope.
+	TotalLowCostNS uint64
+}
+
+// Marshal encodes/decodes a WhiskerScopeDataSummary.
+func (x *WhiskerScopeDataSummary) Marshal(r IO) {
+	r.String(&x.Label)
+	r.String(&x.Indentation)
+	r.Uint64(&x.TotalHighCostNS)
+	r.Uint64(&x.TotalMidCostNS)
+	r.Uint64(&x.TotalLowCostNS)
+}
