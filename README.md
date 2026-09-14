@@ -40,7 +40,8 @@ func main() {
         if err := conn.DoSpawn(); err != nil {
                 panic(err)
         }
-}```
+}
+```
 
 ## Supported versions
 
