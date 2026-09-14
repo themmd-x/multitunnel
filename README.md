@@ -13,7 +13,8 @@ Multi Version [GopherTunnel](https://github.com/Sandertv/gophertunnel) library c
 ## installation
 
 ```sh
-go get github.com/TheMMD-X/multitunnel```
+go get github.com/TheMMD-X/multitunnel
+```
 
 ## example
 
