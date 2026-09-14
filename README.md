@@ -10,13 +10,13 @@ Multi Version [GopherTunnel](https://github.com/Sandertv/gophertunnel) library c
 - Runtime and compile time version selection
 - Very similar API to gophertunnel
 
-## installation
+## Installation
 
 ```sh
 go get github.com/TheMMD-X/multitunnel
 ```
 
-## example
+## Usage example
 
 ```go
 package main
