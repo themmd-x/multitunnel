@@ -3,6 +3,8 @@ module github.com/TheMMD-X/multitunnel
 go 1.27.0
 
 replace (
+	github.com/TheMMD-X/multitunnel/libs/go-raknet/v1120 => ./libs/go-raknet/v1120
+	github.com/TheMMD-X/multitunnel/libs/go-raknet/v1152 => ./libs/go-raknet/v1152
 	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v121100 => ./libs/gophertunnel/v121100
 	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v121111 => ./libs/gophertunnel/v121111
 	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v121120 => ./libs/gophertunnel/v121120
@@ -20,11 +22,11 @@ replace (
 	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12610 => ./libs/gophertunnel/v12610
 	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12630 => ./libs/gophertunnel/v12630
 	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12640 => ./libs/gophertunnel/v12640
-	github.com/TheMMD-X/multitunnel/libs/go-raknet/v1120 => ./libs/go-raknet/v1120
-	github.com/TheMMD-X/multitunnel/libs/go-raknet/v1152 => ./libs/go-raknet/v1152
 )
 
 require (
+	github.com/TheMMD-X/multitunnel/libs/go-raknet/v1120 v1120.0.0-00010101000000-000000000000
+	github.com/TheMMD-X/multitunnel/libs/go-raknet/v1152 v1152.0.0-00010101000000-000000000000
 	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v121100 v121100.0.0-00010101000000-000000000000
 	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v121111 v121111.0.0-00010101000000-000000000000
 	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v121120 v121120.0.0-00010101000000-000000000000
@@ -42,12 +44,16 @@ require (
 	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12610 v12610.0.0-00010101000000-000000000000
 	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12630 v12630.0.0-00010101000000-000000000000
 	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12640 v12640.0.0-00010101000000-000000000000
-	github.com/TheMMD-X/multitunnel/libs/go-raknet/v1120 v1120.0.0-00010101000000-000000000000
-	github.com/TheMMD-X/multitunnel/libs/go-raknet/v1152 v1152.0.0-00010101000000-000000000000
+)
+
+require (
+	github.com/coder/websocket v1.8.14 // indirect
 	github.com/coreos/go-oidc/v3 v3.17.0 // indirect
 	github.com/df-mc/go-nethernet v1.0.17 // indirect
 	github.com/df-mc/go-playfab v1.0.0 // indirect
+	github.com/df-mc/go-playfab/v2 v2.0.3 // indirect
 	github.com/df-mc/go-xsapi v1.0.1 // indirect
+	github.com/df-mc/go-xsapi/v2 v2.0.3 // indirect
 	github.com/df-mc/jsonc v1.0.5 // indirect
 	github.com/go-gl/mathgl v1.1.0 // indirect
 	github.com/go-jose/go-jose/v3 v3.0.3 // indirect
@@ -81,7 +87,7 @@ require (
 	golang.org/x/exp v0.0.0-20240909161429-701f63a606c0 // indirect
 	golang.org/x/image v0.21.0 // indirect
 	golang.org/x/net v0.50.0 // indirect
-	golang.org/x/oauth2 v0.28.0 // indirect
+	golang.org/x/oauth2 v0.36.0 // indirect
 	golang.org/x/sys v0.41.0 // indirect
 	golang.org/x/text v0.34.0 // indirect
 	golang.org/x/time v0.10.0 // indirect

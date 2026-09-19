@@ -1,7 +1,7 @@
 #!/bin/bash
 
-SOURCE="$1"
-PARENT_DIR="$2"
+SOURCE="./versions/v12140/adapter.go"
+PARENT_DIR="./versions/"
 
 for dir in "$PARENT_DIR"/*/; do
     cp "$SOURCE" "$dir"

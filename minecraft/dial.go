@@ -53,11 +53,12 @@ import (
 
 	gtV12640 "github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12640/minecraft"
 	"github.com/TheMMD-X/multitunnel/versions/v12640"
+
+	"github.com/TheMMD-X/multitunnel/core"
 )
 
-// TODO: Add the gophertunnel dialer fully instead of making shit up
 type Dialer struct {
-	Version string
+	core.Dialer
 }
 
 func (d *Dialer) Dial(network string, host string) (Handle, error) {
@@ -65,121 +66,121 @@ func (d *Dialer) Dial(network string, host string) (Handle, error) {
 		return nil, fmt.Errorf("minecraft: unsupported network %q", network)
 	}
 
-	switch d.Version {
+	switch d.Dialer.Version {
 	case "1.21.100":
-		gt, err := v121100.Connect(host)
+		gt, err := v121100.Connect(host, d.Dialer)
 		if err != nil {
 			return nil, err
 		}
 		return &Conn[*gtV121100.Conn]{GtConn: gt, Version: d.Version}, nil
 
 	case "1.21.111":
-		gt, err := v121111.Connect(host)
+		gt, err := v121111.Connect(host, d.Dialer)
 		if err != nil {
 			return nil, err
 		}
 		return &Conn[*gtV121111.Conn]{GtConn: gt, Version: d.Version}, nil
 
 	case "1.21.120":
-		gt, err := v121120.Connect(host)
+		gt, err := v121120.Connect(host, d.Dialer)
 		if err != nil {
 			return nil, err
 		}
 		return &Conn[*gtV121120.Conn]{GtConn: gt, Version: d.Version}, nil
 
 	case "1.21.130":
-		gt, err := v121130.Connect(host)
+		gt, err := v121130.Connect(host, d.Dialer)
 		if err != nil {
 			return nil, err
 		}
 		return &Conn[*gtV121130.Conn]{GtConn: gt, Version: d.Version}, nil
 
 	case "1.21.2":
-		gt, err := v1212.Connect(host)
+		gt, err := v1212.Connect(host, d.Dialer)
 		if err != nil {
 			return nil, err
 		}
 		return &Conn[*gtV1212.Conn]{GtConn: gt, Version: d.Version}, nil
 
 	case "1.21.20":
-		gt, err := v12120.Connect(host)
+		gt, err := v12120.Connect(host, d.Dialer)
 		if err != nil {
 			return nil, err
 		}
 		return &Conn[*gtV12120.Conn]{GtConn: gt, Version: d.Version}, nil
 
 	case "1.21.30":
-		gt, err := v12130.Connect(host)
+		gt, err := v12130.Connect(host, d.Dialer)
 		if err != nil {
 			return nil, err
 		}
 		return &Conn[*gtV12130.Conn]{GtConn: gt, Version: d.Version}, nil
 
 	case "1.21.40":
-		gt, err := v12140.Connect(host)
+		gt, err := v12140.Connect(host, d.Dialer)
 		if err != nil {
 			return nil, err
 		}
 		return &Conn[*gtV12140.Conn]{GtConn: gt, Version: d.Version}, nil
 
 	case "1.21.50":
-		gt, err := v12150.Connect(host)
+		gt, err := v12150.Connect(host, d.Dialer)
 		if err != nil {
 			return nil, err
 		}
 		return &Conn[*gtV12150.Conn]{GtConn: gt, Version: d.Version}, nil
 
 	case "1.21.60":
-		gt, err := v12160.Connect(host)
+		gt, err := v12160.Connect(host, d.Dialer)
 		if err != nil {
 			return nil, err
 		}
 		return &Conn[*gtV12160.Conn]{GtConn: gt, Version: d.Version}, nil
 
 	case "1.21.70":
-		gt, err := v12170.Connect(host)
+		gt, err := v12170.Connect(host, d.Dialer)
 		if err != nil {
 			return nil, err
 		}
 		return &Conn[*gtV12170.Conn]{GtConn: gt, Version: d.Version}, nil
 
 	case "1.21.80":
-		gt, err := v12180.Connect(host)
+		gt, err := v12180.Connect(host, d.Dialer)
 		if err != nil {
 			return nil, err
 		}
 		return &Conn[*gtV12180.Conn]{GtConn: gt, Version: d.Version}, nil
 
 	case "1.21.90":
-		gt, err := v12190.Connect(host)
+		gt, err := v12190.Connect(host, d.Dialer)
 		if err != nil {
 			return nil, err
 		}
 		return &Conn[*gtV12190.Conn]{GtConn: gt, Version: d.Version}, nil
 
 	case "1.21.93":
-		gt, err := v12193.Connect(host)
+		gt, err := v12193.Connect(host, d.Dialer)
 		if err != nil {
 			return nil, err
 		}
 		return &Conn[*gtV12193.Conn]{GtConn: gt, Version: d.Version}, nil
 
 	case "1.26.10":
-		gt, err := v12610.Connect(host)
+		gt, err := v12610.Connect(host, d.Dialer)
 		if err != nil {
 			return nil, err
 		}
 		return &Conn[*gtV12610.Conn]{GtConn: gt, Version: d.Version}, nil
 
 	case "1.26.30":
-		gt, err := v12630.Connect(host)
+		gt, err := v12630.Connect(host, d.Dialer)
 		if err != nil {
 			return nil, err
 		}
 		return &Conn[*gtV12630.Conn]{GtConn: gt, Version: d.Version}, nil
 
 	case "1.26.40":
-		gt, err := v12640.Connect(host)
+		gt, err := v12640.Connect(host, d.Dialer)
 		if err != nil {
 			return nil, err
 		}

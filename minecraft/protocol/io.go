@@ -5,7 +5,7 @@ import (
 
 	"github.com/go-gl/mathgl/mgl32"
 	"github.com/google/uuid"
-	"gophertunnel/vgophertunnel/minecraft/nbt"
+	"github.com/TheMMD-X/multitunnel/minecraft/nbt"
 	"golang.org/x/exp/constraints"
 )
 

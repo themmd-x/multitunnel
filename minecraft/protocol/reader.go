@@ -13,7 +13,7 @@ import (
 
 	"github.com/go-gl/mathgl/mgl32"
 	"github.com/google/uuid"
-	"gophertunnel/vgophertunnel/minecraft/nbt"
+	"github.com/TheMMD-X/multitunnel/minecraft/nbt"
 )
 
 // Reader implements reading operations for reading types from Minecraft packets. Each Packet implementation

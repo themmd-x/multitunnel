@@ -1,6 +1,6 @@
 package minecraft
 
-import "github.com/TheMMD-X/multitunnel/minecraft/protocol/packet"
+//import "github.com/TheMMD-X/multitunnel/minecraft/protocol/packet"
 
 type Spawner interface {
 	DoSpawn() error
@@ -25,11 +25,11 @@ func (c *Conn[T]) DoSpawn() error {
 func (c *Conn[T]) Close() error {
 	return c.GtConn.Close()
 }
-
+/*
 func (c *Conn[T]) WritePacket(pk packet.Packet) error {
 	return c.GtConn.WritePacket(pk)
 }
 
 func (c *Conn[T]) ReadPacket[P any]() (pk P, err error) {
 	return c.GtConn.ReadPacket()
-}
+}*/

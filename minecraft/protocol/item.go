@@ -1,6 +1,6 @@
 package protocol
 
-import "gophertunnel/vgophertunnel/minecraft/nbt"
+import "github.com/TheMMD-X/multitunnel/minecraft/nbt"
 
 const (
 	ItemEntryVersionLegacy = iota
