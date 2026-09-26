@@ -17,7 +17,7 @@ type Conn[T Spawner] struct {
 	Version string
 }
 
-// TODO: instead of this unversioned mess of wrappers move it to the version adapters
+// do we need adapters for these? no idea
 func (c *Conn[T]) DoSpawn() error {
 	return c.GtConn.DoSpawn()
 }

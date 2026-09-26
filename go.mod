@@ -2,50 +2,6 @@ module github.com/TheMMD-X/multitunnel
 
 go 1.27.0
 
-replace (
-	github.com/TheMMD-X/multitunnel/libs/go-raknet/v1120 => ./libs/go-raknet/v1120
-	github.com/TheMMD-X/multitunnel/libs/go-raknet/v1152 => ./libs/go-raknet/v1152
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v121100 => ./libs/gophertunnel/v121100
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v121111 => ./libs/gophertunnel/v121111
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v121120 => ./libs/gophertunnel/v121120
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v121130 => ./libs/gophertunnel/v121130
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v1212 => ./libs/gophertunnel/v1212
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12120 => ./libs/gophertunnel/v12120
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12130 => ./libs/gophertunnel/v12130
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12140 => ./libs/gophertunnel/v12140
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12150 => ./libs/gophertunnel/v12150
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12160 => ./libs/gophertunnel/v12160
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12170 => ./libs/gophertunnel/v12170
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12180 => ./libs/gophertunnel/v12180
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12190 => ./libs/gophertunnel/v12190
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12193 => ./libs/gophertunnel/v12193
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12610 => ./libs/gophertunnel/v12610
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12630 => ./libs/gophertunnel/v12630
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12640 => ./libs/gophertunnel/v12640
-)
-
-require (
-	github.com/TheMMD-X/multitunnel/libs/go-raknet/v1120 v1120.0.0-00010101000000-000000000000
-	github.com/TheMMD-X/multitunnel/libs/go-raknet/v1152 v1152.0.0-00010101000000-000000000000
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v121100 v121100.0.0-00010101000000-000000000000
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v121111 v121111.0.0-00010101000000-000000000000
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v121120 v121120.0.0-00010101000000-000000000000
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v121130 v121130.0.0-00010101000000-000000000000
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v1212 v1212.0.0-00010101000000-000000000000
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12120 v12120.0.0-00010101000000-000000000000
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12130 v12130.0.0-00010101000000-000000000000
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12140 v12140.0.0-00010101000000-000000000000
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12150 v12150.0.0-00010101000000-000000000000
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12160 v12160.0.0-00010101000000-000000000000
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12170 v12170.0.0-00010101000000-000000000000
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12180 v12180.0.0-00010101000000-000000000000
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12190 v12190.0.0-00010101000000-000000000000
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12193 v12193.0.0-00010101000000-000000000000
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12610 v12610.0.0-00010101000000-000000000000
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12630 v12630.0.0-00010101000000-000000000000
-	github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12640 v12640.0.0-00010101000000-000000000000
-)
-
 require (
 	github.com/coder/websocket v1.8.14 // indirect
 	github.com/coreos/go-oidc/v3 v3.17.0 // indirect

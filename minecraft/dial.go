@@ -2,6 +2,7 @@ package minecraft
 
 import (
 	"fmt"
+	"strings"
 
 	gtV121100 "github.com/TheMMD-X/multitunnel/libs/gophertunnel/v121100/minecraft"
 	"github.com/TheMMD-X/multitunnel/versions/v121100"
@@ -54,6 +55,7 @@ import (
 	gtV12640 "github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12640/minecraft"
 	"github.com/TheMMD-X/multitunnel/versions/v12640"
 
+	raknet "github.com/TheMMD-X/multitunnel/libs/go-raknet/v1152"
 	"github.com/TheMMD-X/multitunnel/core"
 )
 
@@ -66,6 +68,13 @@ func (d *Dialer) Dial(network string, host string) (Handle, error) {
 		return nil, fmt.Errorf("minecraft: unsupported network %q", network)
 	}
 
+	if d.Dialer.Version == "" {
+		detected, err := getVersion(host)
+		if err != nil {
+			return nil, fmt.Errorf("minecraft: server version detection error")
+		}
+		d.Dialer.Version = detected
+	}
 	switch d.Dialer.Version {
 	case "1.21.100":
 		gt, err := v121100.Connect(host, d.Dialer)
@@ -188,4 +197,19 @@ func (d *Dialer) Dial(network string, host string) (Handle, error) {
 	default:
 		return nil, fmt.Errorf("minecraft: version %q unknown", d.Version)
 	}
+}
+
+func getVersion(address string) (string, error) {
+	data, err := raknet.Ping(address)
+	if err != nil {
+		return "", err
+	}
+
+	parts := strings.Split(string(data), ";")
+
+	if len(parts) < 4 || parts[0] != "MCPE" {
+		return "", fmt.Errorf("invalid Bedrock pong")
+	}
+
+	return parts[3], nil
 }

@@ -6,14 +6,15 @@ Multi Version [GopherTunnel](https://github.com/Sandertv/gophertunnel) library c
 
 ## Features
 
-- Support client based tasks
+- Support client and server sides
 - Runtime and compile time version selection
-- Very similar API to gophertunnel
+- Near equal API to gophertunnel
 
 ## installation
 
 ```sh
-go get github.com/TheMMD-X/MultiTunnel```
+go get github.com/TheMMD-X/MultiTunnel
+```
 
 ## example
 
@@ -39,7 +40,8 @@ func main() {
         if err := conn.DoSpawn(); err != nil {
                 panic(err)
         }
-}```
+}
+```
 
 ## Supported versions
 
@@ -48,4 +50,4 @@ func main() {
 
 ## Future updates
 
-- Server side implementation
+- Adding the missing pieces from specific structs

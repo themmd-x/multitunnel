@@ -1,9 +1,18 @@
 package v12190
 
 import (
+	"context"
+	"errors"
+	"fmt"
+	"log/slog"
+	"net"
+	"sync"
+	"sync/atomic"
+
 	mtCore "github.com/TheMMD-X/multitunnel/core"
 	"github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12190/minecraft"
 	"github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12190/minecraft/protocol/login"
+	"github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12190/minecraft/protocol/packet"
 )
 
 func Connect(host string, mtDialer mtCore.Dialer) (*minecraft.Conn, error) {
@@ -92,4 +101,147 @@ func Connect(host string, mtDialer mtCore.Dialer) (*minecraft.Conn, error) {
 	}
 
 	return conn, nil
+}
+
+var (
+	feeders      sync.Map
+	feederSerial atomic.Uint64
+)
+
+func init() {
+	minecraft.RegisterNetwork("multitunnel", func(*slog.Logger) minecraft.Network { return network{} })
+}
+
+type network struct{}
+
+func (network) DialContext(context.Context, string) (net.Conn, error) {
+	return nil, errors.New("v12190: the multitunnel network cannot dial")
+}
+
+func (network) PingContext(context.Context, string) ([]byte, error) {
+	return nil, errors.New("v12190: the multitunnel network cannot ping")
+}
+
+func (network) Listen(address string) (minecraft.NetworkListener, error) {
+	f, ok := feeders.LoadAndDelete(address)
+	if !ok {
+		return nil, fmt.Errorf("v12190: no feeder registered under %q", address)
+	}
+	return f.(*feeder), nil
+}
+
+type feeder struct {
+	nl     mtCore.NetworkListener
+	conns  chan net.Conn
+	closed chan struct{}
+	once   sync.Once
+}
+
+func (f *feeder) Accept() (net.Conn, error) {
+	select {
+	case conn := <-f.conns:
+		return conn, nil
+	case <-f.closed:
+		return nil, net.ErrClosed
+	}
+}
+
+func (f *feeder) Close() error {
+	f.once.Do(func() { close(f.closed) })
+	return nil
+}
+
+func (f *feeder) Addr() net.Addr {
+	return f.nl.Addr()
+}
+
+func (f *feeder) ID() int64 {
+	return f.nl.ID()
+}
+
+func (f *feeder) PongData(data []byte) {
+	f.nl.PongData(data)
+}
+
+type Server struct {
+	listener *minecraft.Listener
+	feeder   *feeder
+}
+
+func NewServer(mtCfg mtCore.ListenConfig, nl mtCore.NetworkListener, deliver func(net.Conn)) (*Server, error) {
+	f := &feeder{
+		nl:     nl,
+		conns:  make(chan net.Conn),
+		closed: make(chan struct{}),
+	}
+	key := fmt.Sprint(feederSerial.Add(1))
+	feeders.Store(key, f)
+
+	cfg := minecraft.ListenConfig{
+		ErrorLog:               mtCfg.ErrorLog,
+		AuthenticationDisabled: mtCfg.AuthenticationDisabled,
+		MaximumPlayers:         mtCfg.MaximumPlayers,
+		AllowUnknownPackets:    mtCfg.AllowUnknownPackets,
+		AllowInvalidPackets:    mtCfg.AllowInvalidPackets,
+		FlushRate:              mtCfg.FlushRate,
+		TexturePacksRequired:   mtCfg.TexturePacksRequired,
+	}
+	if mtCfg.StatusProvider != nil {
+		cfg.StatusProvider = statusProvider{mtCfg.StatusProvider}
+	}
+
+	listener, err := cfg.Listen("multitunnel", key)
+	if err != nil {
+		feeders.Delete(key)
+		return nil, err
+	}
+
+	go func() {
+		for {
+			conn, err := listener.Accept()
+			if err != nil {
+				return
+			}
+			deliver(conn)
+		}
+	}()
+	return &Server{listener: listener, feeder: f}, nil
+}
+
+func (s *Server) Handle(conn net.Conn) {
+	select {
+	case s.feeder.conns <- conn:
+	case <-s.feeder.closed:
+		_ = conn.Close()
+	}
+}
+
+func (s *Server) Close() error {
+	return s.listener.Close()
+}
+
+func Disconnect(conn net.Conn, message string) error {
+	c, ok := conn.(*minecraft.Conn)
+	if !ok {
+		return fmt.Errorf("v12190: disconnect: unexpected connection type %T", conn)
+	}
+	_ = c.WritePacket(&packet.Disconnect{
+		HideDisconnectionScreen: message == "",
+		Message:                 message,
+	})
+	return c.Close()
+}
+
+type statusProvider struct {
+	provider mtCore.ServerStatusProvider
+}
+
+func (s statusProvider) ServerStatus(playerCount, maxPlayers int) minecraft.ServerStatus {
+	status := s.provider.ServerStatus(playerCount, maxPlayers)
+	return minecraft.ServerStatus{
+		ServerName:    status.ServerName,
+		ServerSubName: status.ServerSubName,
+		PlayerCount:   status.PlayerCount,
+		MaxPlayers:    status.MaxPlayers,
+	}
 }
