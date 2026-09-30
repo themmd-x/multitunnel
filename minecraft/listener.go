@@ -1,7 +1,6 @@
 package minecraft
 
 import (
-	"errors"
 	"fmt"
 	"log/slog"
 	"net"
@@ -110,13 +109,14 @@ func (listener *Listener) Close() error {
 func (listener *Listener) handle(conn net.Conn) {
 	version := listener.config.Version
 	if version == "" {
-		detected, err := detectVersion(conn)
+		detected, replay, err := detectVersion(conn)
 		if err != nil {
 			listener.config.ErrorLog.Error("detect client version", "error", err)
 			_ = conn.Close()
 			return
 		}
 		version = detected
+		conn = replay
 	}
 
 	s, err := listener.serverFor(version)
@@ -283,13 +283,18 @@ func (listener *Listener) serverFor(version string) (server, error) {
 	}
 }
 
-func detectVersion(conn net.Conn) (string, error) {
-	return "", errors.New("minecraft: client version detection is not implemented")
-}
-
 func (listener *Listener) updatePongData() {
 	version, ok := versions.ByMinecraft[listener.config.Version]
 	if !ok {
+		status := listener.config.StatusProvider.ServerStatus(0, listener.config.MaximumPlayers)
+		if status.MaxPlayers == 0 {
+			status.MaxPlayers = status.PlayerCount + 1
+		}
+		port := listener.Addr().(*net.UDPAddr).Port
+		listener.network.PongData([]byte(fmt.Sprintf("MCPE;%v;%v;%v;%v;%v;%v;%v;%v;%v;%v;%v;%v;",
+			status.ServerName, versions.ByMinecraft["1.26.40"].Protocol, versions.ByMinecraft["1.26.40"].Minecraft, status.PlayerCount, status.MaxPlayers,
+			listener.network.ID(), status.ServerSubName, "Creative", 1, port, port, 0,
+		)))
 		return
 	}
 	status := listener.config.StatusProvider.ServerStatus(0, listener.config.MaximumPlayers)

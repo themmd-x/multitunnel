@@ -4,18 +4,18 @@ import (
 	"fmt"
 
 	mtCore "github.com/TheMMD-X/multitunnel/core"
-	gtMinecraft "github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12140/minecraft"
-	"github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12140/minecraft/protocol/packet"
 	"github.com/TheMMD-X/multitunnel/minecraft"
+	"github.com/TheMMD-X/multitunnel/minecraft/protocol/packet"
 )
 
 func main() {
+	fmt.Println("Starting...")
 	// Create a minecraft.Listener with a specific name to be displayed as MOTD in the server list.
 	name := "MOTD of this server"
 	cfg := minecraft.ListenConfig{
 		ListenConfig: mtCore.ListenConfig{
 			StatusProvider:         minecraft.NewStatusProvider(name, "Gophertunnel"),
-			Version:                "1.21.50",
+			//Version:                "1.21.40",
 			AuthenticationDisabled: true,
 		},
 	}
@@ -34,7 +34,7 @@ func main() {
 		if err != nil {
 			return
 		}
-		conn := c.(*gtMinecraft.Conn)
+		conn := c
 
 		go func() {
 			// Process the connection on another goroutine as you would with TCP connections.
@@ -42,15 +42,15 @@ func main() {
 
 			// Make the client spawn in the world using conn.StartGame. An error is returned if the client
 			// times out during the connection.
-			worldData := gtMinecraft.GameData{}
-			if err := conn.StartGame(worldData); err != nil {
+			worldData := minecraft.GameData{}
+			if err := minecraft.StartGame(conn, worldData); err != nil {
 				return
 			}
 
 			for {
 				// Read a packet from the connection: ReadPacket returns an error if the connection is closed or if
 				// a read timeout is set. You will generally want to return or break if this happens.
-				pk, err := conn.ReadPacket()
+				pk, err := minecraft.ReadPacket(conn)
 				if err != nil {
 					break
 				}
@@ -67,7 +67,7 @@ func main() {
 				// Write a packet to the connection: Similarly to ReadPacket, WritePacket will (only) return an error
 				// if the connection is closed.
 				p := &packet.ChunkRadiusUpdated{ChunkRadius: 32}
-				if err := conn.WritePacket(p); err != nil {
+				if err := minecraft.WritePacket(conn, p); err != nil {
 					break
 				}
 			}

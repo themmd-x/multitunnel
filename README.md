@@ -1,22 +1,27 @@
 # MultiTunnel
 
-> Under development, Possible bugs, Internal modules may change
-
-Multi Version [GopherTunnel](https://github.com/Sandertv/gophertunnel) library collection with an API similar to gophertunnel
+Multi Version Minecraft Bedrock Protocol Library with an API similar to [GopherTunnel](github.com/Sandertv/gophertunnel)
 
 ## Features
 
+- Packet level control
 - Support client and server sides
 - Runtime and compile time version selection
 - Near equal API to gophertunnel
+- Multi version servers
 
-## installation
+## GopherTunnel Compatibility
 
-```sh
-go get github.com/TheMMD-X/MultiTunnel
-```
+MultiTunnel intentionally follows the GopherTunnel API where possible.
+For many applications, replacing:
+github.com/sandertv/gophertunnel
 
-## example
+with:
+
+github.com/TheMMD-X/multitunnel
+requires near no changes.
+
+## Client example
 
 ```go
 package main
