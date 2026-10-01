@@ -26,6 +26,7 @@ import (
 	"github.com/TheMMD-X/multitunnel/versions/v12610"
 	"github.com/TheMMD-X/multitunnel/versions/v12630"
 	"github.com/TheMMD-X/multitunnel/versions/v12640"
+	"github.com/TheMMD-X/multitunnel/versions/v12650"
     raknet "github.com/TheMMD-X/multitunnel/libs/go-raknet/v1152"
 )
 
@@ -44,16 +45,6 @@ type Listener struct {
 type server interface {
 	Handle(conn net.Conn)
 	Close() error
-}
-
-type (
-	ServerStatus           = mtCore.ServerStatus
-	ServerStatusProvider   = mtCore.ServerStatusProvider
-	ListenerStatusProvider = mtCore.ListenerStatusProvider
-)
-
-func NewStatusProvider(serverName, serverSubName string) ListenerStatusProvider {
-	return mtCore.NewStatusProvider(serverName, serverSubName)
 }
 
 func (cfg ListenConfig) Listen(network string, address string) (*Listener, error) {
@@ -278,6 +269,13 @@ func (listener *Listener) serverFor(version string) (server, error) {
 		}
 		listener.servers[version] = created
 		return created, nil
+	case "1.26.50":
+		created, err := v12650.NewServer(listener.config, listener.network, listener.Deliver)
+		if err != nil {
+			return nil, err
+		}
+		listener.servers[version] = created
+		return created, nil
 	default:
 		return nil, fmt.Errorf("minecraft: version %q is not supported yet", version)
 	}
@@ -292,7 +290,7 @@ func (listener *Listener) updatePongData() {
 		}
 		port := listener.Addr().(*net.UDPAddr).Port
 		listener.network.PongData([]byte(fmt.Sprintf("MCPE;%v;%v;%v;%v;%v;%v;%v;%v;%v;%v;%v;%v;",
-			status.ServerName, versions.ByMinecraft["1.26.40"].Protocol, versions.ByMinecraft["1.26.40"].Minecraft, status.PlayerCount, status.MaxPlayers,
+			status.ServerName, versions.ByMinecraft["1.26.50"].Protocol, versions.ByMinecraft["1.26.50"].Minecraft, status.PlayerCount, status.MaxPlayers,
 			listener.network.ID(), status.ServerSubName, "Creative", 1, port, port, 0,
 		)))
 		return

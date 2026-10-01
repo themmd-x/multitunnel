@@ -55,6 +55,9 @@ import (
 	gtV12640 "github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12640/minecraft"
 	"github.com/TheMMD-X/multitunnel/versions/v12640"
 
+	gtV12650 "github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12650/minecraft"
+	"github.com/TheMMD-X/multitunnel/versions/v12650"
+
 	raknet "github.com/TheMMD-X/multitunnel/libs/go-raknet/v1152"
 	"github.com/TheMMD-X/multitunnel/core"
 )
@@ -194,6 +197,12 @@ func (d *Dialer) Dial(network string, host string) (Handle, error) {
 			return nil, err
 		}
 		return &Conn[*gtV12640.Conn]{GtConn: gt, Version: d.Version}, nil
+	case "1.26.50":
+		gt, err := v12650.Connect(host, d.Dialer)
+		if err != nil {
+			return nil, err
+		}
+		return &Conn[*gtV12650.Conn]{GtConn: gt, Version: d.Version}, nil
 	default:
 		return nil, fmt.Errorf("minecraft: version %q unknown", d.Version)
 	}

@@ -17,6 +17,8 @@ type Spawner interface {
 type Handle interface {
 	DoSpawn() error
 	Close() error
+	ReadPacket() (packet.Packet, error)
+	WritePacket(pk packet.Packet) error
 }
 
 type Conn[T Spawner] struct {
@@ -26,7 +28,7 @@ type Conn[T Spawner] struct {
 
 // TODO: instead of this unversioned mess of wrappers move it to the version adapters
 func (c *Conn[T]) DoSpawn() error {
-	return c.GtConn.DoSpawn()
+	return wrapError(c.GtConn.DoSpawn())
 }
 
 func (c *Conn[T]) Close() error {
@@ -44,7 +46,7 @@ func (c *Conn[T]) ReadPacket() (packet.Packet, error) {
 func ReadPacket(conn any) (packet.Packet, error) {
 	out := reflect.ValueOf(conn).MethodByName("ReadPacket").Call(nil)
 	if e := out[1].Interface(); e != nil {
-		return nil, e.(error)
+		return nil, wrapError(e.(error))
 	}
 	return fromVendor(out[0].Interface())
 }
@@ -64,7 +66,7 @@ func writePacket(conn any, version string, pk packet.Packet) error {
 	}
 	out := reflect.ValueOf(conn).MethodByName("WritePacket").Call([]reflect.Value{reflect.ValueOf(vendorPk)})
 	if e := out[0].Interface(); e != nil {
-		return e.(error)
+		return wrapError(e.(error))
 	}
 	return nil
 }
@@ -78,7 +80,7 @@ func StartGame(conn any, data GameData) error {
 	copyValue(reflect.ValueOf(data), vendorData)
 	out := m.Call([]reflect.Value{vendorData})
 	if e := out[0].Interface(); e != nil {
-		return e.(error)
+		return wrapError(e.(error))
 	}
 	return nil
 }

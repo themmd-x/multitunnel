@@ -14,6 +14,7 @@ import (
 	"github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12130/minecraft"
 	"github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12130/minecraft/protocol/login"
 	"github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12130/minecraft/protocol/packet"
+	"github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12130/minecraft/resource"
 )
 
 func Connect(host string, mtDialer mtCore.Dialer) (*minecraft.Conn, error) {
@@ -199,6 +200,18 @@ func NewServer(mtCfg mtCore.ListenConfig, nl mtCore.NetworkListener, deliver fun
 	}
 	if mtCfg.StatusProvider != nil {
 		cfg.StatusProvider = statusProvider{mtCfg.StatusProvider}
+	}
+
+	for _, pack := range mtCfg.ResourcePacks {
+		converted, err := resource.Read(mtCore.PackReader(pack))
+		if err != nil {
+			feeders.Delete(key)
+			return nil, err
+		}
+		if pack.Encrypted() {
+			converted = converted.WithContentKey(pack.ContentKey())
+		}
+		cfg.ResourcePacks = append(cfg.ResourcePacks, converted)
 	}
 
 	listener, err := cfg.Listen("multitunnel", key)

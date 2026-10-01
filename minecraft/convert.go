@@ -23,6 +23,7 @@ import (
 	v12610packet "github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12610/minecraft/protocol/packet"
 	v12630packet "github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12630/minecraft/protocol/packet"
 	v12640packet "github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12640/minecraft/protocol/packet"
+	v12650packet "github.com/TheMMD-X/multitunnel/libs/gophertunnel/v12650/minecraft/protocol/packet"
 )
 
 type typeRegistry map[string]reflect.Type
@@ -58,6 +59,7 @@ var vendorTypes = map[string]typeRegistry{
 	"1.26.10":  buildRegistryOf(v12610packet.NewClientPool(), v12610packet.NewServerPool()),
 	"1.26.30":  buildRegistryOf(v12630packet.NewClientPool(), v12630packet.NewServerPool()),
 	"1.26.40":  buildRegistryOf(v12640packet.NewClientPool(), v12640packet.NewServerPool()),
+	"1.26.50":  buildRegistryOf(v12650packet.NewClientPool(), v12650packet.NewServerPool()),
 }
 
 func registryFor(version string) (typeRegistry, error) {

@@ -24,6 +24,7 @@ var Registry = []Version{
 	{Minecraft: "1.26.10", ID: "v12610", Protocol: 944},
 	{Minecraft: "1.26.30", ID: "v12630", Protocol: 1001},
 	{Minecraft: "1.26.40", ID: "v12640", Protocol: 2168},
+	{Minecraft: "1.26.50", ID: "v12650", Protocol: 2193},
 }
 
 var (
