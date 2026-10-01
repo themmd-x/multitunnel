@@ -14,6 +14,7 @@ Multi Version Minecraft Bedrock Protocol Library with an API similar to [GopherT
 
 MultiTunnel intentionally follows the GopherTunnel API where possible.
 For many applications, replacing:
+
 github.com/sandertv/gophertunnel
 
 with:
@@ -56,3 +57,4 @@ func main() {
 ## Future updates
 
 - Adding the missing pieces from specific structs
+
